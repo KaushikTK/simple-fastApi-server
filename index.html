@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>REQUEST MAKER</title>
+</head>
+<body>
+    <script>
+
+        // API
+        const DEFAULT = 'http://localhost:8000/' // default get route
+        const LIST = 'http://localhost:8000/list' // get => array as response
+        const DICTIONARY = 'http://localhost:8000/dict' // get => object as response
+        const _JSON = 'http://localhost:8000/json' // get => object as response
+        const SUM_WITH_VALUES_IN_URL = 'http://localhost:8000/sum/5/4' // get => values are present in the url
+        const PRODUCT_WITH_PARAM_VALUES = { //get method
+            url:'http://localhost:8000/product', // values are sent inside the params object
+            params: {a:5, b:3, c:'2'} // u can try removing c and it will still work as c is optional
+        }
+        const LOGIN = { // post => returns either valid or invalid
+            url: 'http://localhost:8000/login',
+            params:{
+                username:'kaushik',
+                password:'python'
+            }
+        } 
+
+        const makeRequest = async (url, params=undefined, requestType='GET') => {
+
+            let requestObj = {
+                type: requestType,
+                url: url
+            }
+
+            if(params && requestType === 'POST') requestObj.data = JSON.stringify(params)
+            else if(params) requestObj.data = {...params};
+            console.log(requestObj)
+            try {
+                const response = await $.ajax({...requestObj})
+                console.log(response)
+
+            } catch (error) {
+                console.log(error);
+                alert('error')
+            }
+        }
+
+        const driverFunction = () => {
+            // change these 3 variables
+            const url = DEFAULT
+            const params = undefined
+            const requestType = 'GET'
+            makeRequest(url, params, requestType)
+        }
+
+        driverFunction()
+
+    </script>
+</body>
+</html>
